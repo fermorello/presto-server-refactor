@@ -2,9 +2,18 @@
   "name": "presto_refactor",
   "version": "1.0.0",
   "description": "Refactor of the old presto server project",
-  "main": "index.js",
+  "main": "server.js",
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "start": "tsc && node dist/server.js",
+    "start:dev": "tsc && concurrently \"tsc -w \" \" nodemon dist/server.js\" ",
+    "start:prod": "SET NODE_ENV=production && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typeorm": "typeorm-ts-node-esm -d ./src/config/data.source.ts",
+    "m:gen": "npm run typeorm migration:generate",
+    "m:run": "npm run typeorm migration:run"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
