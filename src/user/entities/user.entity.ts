@@ -16,6 +16,5 @@ export class UserEntity extends BaseEntity {
   password!: string;
 
   @OneToMany(() => ExpenseEntity, (expense) => expense.user)
-  @JoinColumn({ name: 'expense_id' })
   expenses!: ExpenseEntity[];
 }
