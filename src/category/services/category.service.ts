@@ -2,7 +2,6 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { BaseService } from '../../config/base.service';
 import { CategoryDTO } from '../dto/category.dto';
 import { CategoryEntity } from '../entities/category.entity';
-import bcrypt from 'bcrypt';
 
 export class CategoryService extends BaseService<CategoryEntity> {
   constructor() {
