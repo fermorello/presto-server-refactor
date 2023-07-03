@@ -2,14 +2,15 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { BaseService } from '../../config/base.service';
 import { ExpenseDTO } from '../dto/expense.dto';
 import { ExpenseEntity } from '../entities/expense.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 
 export class ExpenseService extends BaseService<ExpenseEntity> {
   constructor() {
     super(ExpenseEntity);
   }
 
-  async findAllExpenseByUser(): Promise<ExpenseEntity[]> {
-    return (await this.execRepository).createQueryBuilder('expense').getMany();
+  async findAllExpenseByUser(userId: string): Promise<ExpenseEntity[]> {
+    return (await this.execRepository).createQueryBuilder('expense').where('expense.user = :userId', { userId }).getMany();
   }
 
   async findExpenseById(id: string): Promise<ExpenseEntity | null> {

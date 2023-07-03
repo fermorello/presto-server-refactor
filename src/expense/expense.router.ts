@@ -8,21 +8,14 @@ export class ExpenseRouter extends BaseRouter<ExpenseController, ExpenseMiddlewa
     super(ExpenseController, ExpenseMiddleware);
   }
   routes(): void {
-    this.router.get('/expenses', (req: Request, res: Response) =>
-      this.controller.getExpensesByUser(req, res)
-    );
-    this.router.get('/expenses/:id', (req: Request, res: Response) =>
-      this.controller.getExpenseById(req, res)
-    );
+    this.router.get('/expenses', this.middleware.passAuth('jwt'), (req: Request, res: Response) => this.controller.getExpensesByUser(req, res));
+    this.router.get('/expenses/:id', (req: Request, res: Response) => this.controller.getExpenseById(req, res));
     this.router.post(
       '/expenses',
-      (req: Request, res: Response, next: NextFunction) => [
-        this.middleware.categoryValidator(req, res, next),
-      ],
-      (req: Request, res: Response) => this.controller.createExpense(req, res)
+      this.middleware.passAuth('jwt'),
+      (req: Request, res: Response, next: NextFunction) => [this.middleware.expenseValidator(req, res, next)],
+      (req: Request, res: Response) => this.controller.createExpense(req, res),
     );
-    this.router.delete('/expenses/:id', (req: Request, res: Response) =>
-      this.controller.deleteExpense(req, res)
-    );
+    this.router.delete('/expenses/:id', (req: Request, res: Response) => this.controller.deleteExpense(req, res));
   }
 }

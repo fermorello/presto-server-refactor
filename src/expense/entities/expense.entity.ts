@@ -7,6 +7,9 @@ import { CategoryEntity } from '../../category/entities/category.entity';
 @Entity({ name: 'expense' })
 export class ExpenseEntity extends BaseEntity {
   @Column()
+  expense_name!: string;
+
+  @Column()
   amount!: number;
 
   @Column()

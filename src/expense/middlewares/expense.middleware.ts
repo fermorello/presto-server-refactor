@@ -2,15 +2,18 @@ import { NextFunction, Request, Response } from 'express';
 import { ExpenseDTO } from '../dto/expense.dto';
 import { validate } from 'class-validator';
 import { HttpResponse } from '../../shared/response/http.response';
+import { SharedMiddleware } from '../../shared/middlewares/shared.middleware';
 
-export class ExpenseMiddleware {
-    constructor(private readonly httpResponse: HttpResponse = new HttpResponse()){}
+export class ExpenseMiddleware extends SharedMiddleware {
+    constructor(){
+      super();
+    }
 
-  categoryValidator(req: Request, res: Response, next: NextFunction) {
-    const { name, description, date, category, isDollar } =
+  expenseValidator(req: Request, res: Response, next: NextFunction) {
+    const { expense_name, description, date, category, isDollar } =
       req.body;
     const valid = new ExpenseDTO();
-    valid.name = name;
+    valid.expense_name = expense_name;
     valid.description = description;
     valid.date = date;
     valid.category = category;
