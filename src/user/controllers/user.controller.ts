@@ -33,6 +33,8 @@ export class UserController {
   async createUser(req: Request, res: Response) {
     const user = req.body;
     try {
+      const emailExists = await this.userService.findUserByEmail(user.email);
+      if (emailExists) return this.httpResponse.ERROR(res, "The email is allready in use");
       const data = await this.userService.createUser(user);
       return this.httpResponse.Ok(res, data);
     } catch (e) {
