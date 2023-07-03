@@ -3,6 +3,14 @@ import express, { Response, Request } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { ConfigServer, PORT } from './config/config';
+import { LoginStrategy } from './auth/strategies/login.strategy';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import {
+  UserRouter,
+  CategoryRouter,
+  ExpenseRouter,
+  AuthRouter,
+} from '.';
 
 class ServerBootstrap extends ConfigServer {
   public app: express.Application = express();
@@ -16,12 +24,23 @@ class ServerBootstrap extends ConfigServer {
     this.app.use(cors());
 
     this.dbConnect();
+    this.passportUse();
 
+    this.app.use('/api', this.routers());
     this.listen();
   }
 
   public routers(): Array<express.Router> {
-    return [];
+    return [
+      new UserRouter().router,
+      new CategoryRouter().router,
+      new ExpenseRouter().router,
+      new AuthRouter().router,
+    ];
+  }
+  
+  passportUse() {
+    return [new LoginStrategy().use, new JwtStrategy().use];
   }
 
   public async dbConnect(): Promise<void> {
