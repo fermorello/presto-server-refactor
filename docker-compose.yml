@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  prestoDB:
+    image: mysql:5.7.24
+    container_name: "presto-db"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
+    ports:
+      - '3312:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpw"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "adminpw"
+      MYSQL_DATABASE: "prestoDB"
+    
