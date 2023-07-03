@@ -12,7 +12,7 @@ export class CategoryRouter extends BaseRouter<CategoryController, CategoryMiddl
       this.controller.getCategories(req, res)
     );
     this.router.get('/categories/:id', (req: Request, res: Response) =>
-      this.controller.createCategory(req, res)
+      this.controller.getCategoryById(req, res)
     );
     this.router.post(
       '/categories',

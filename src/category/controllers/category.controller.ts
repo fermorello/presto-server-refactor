@@ -32,9 +32,22 @@ export class CategoryController {
     }
   }
 
+  async getCategoryByName(req: Request, res: Response) {
+    const { name } = req.params;
+    try {
+      const data = await this.categoryService.findCategoryByName(name);
+      if (!data) return this.httpResponse.NotFound(res, 'There is no data');
+      return this.httpResponse.Ok(res, data);
+    } catch (e) {
+      return this.httpResponse.ERROR(res, e);
+    }
+  }
+
   async createCategory(req: Request, res: Response) {
     const category: CategoryDTO = req.body;
     try {
+      const existsCategory = await this.categoryService.findCategoryByName(category.name);
+      if (existsCategory) return this.httpResponse.ERROR(res, 'This category exists allready.');
       const data = await this.categoryService.createCategory(category);
       return this.httpResponse.Ok(res, data);
     } catch (e) {
