@@ -4,7 +4,7 @@ import { BaseEntity } from '../../config/base.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { CategoryEntity } from '../../category/entities/category.entity';
 
-@Entity({ name: 'report' })
+@Entity({ name: 'expense' })
 export class ExpenseEntity extends BaseEntity {
   @Column()
   amount!: number;
@@ -16,7 +16,7 @@ export class ExpenseEntity extends BaseEntity {
   description!: String;
 
   @ManyToOne(() => CategoryEntity, (category) => category.expenses)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'category_id' })
   category!: CategoryEntity;
 
   @Column()
