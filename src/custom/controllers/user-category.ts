@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { HttpResponse } from '../../shared/response/http.response';
-import { UserCategoryService } from '../services/user-entity.service';
+import { UserCategoryService } from '../services/user-category.service';
 import { CategoryDTO } from '../../category/dto/category.dto';
 
 export class UserCategoryController {
