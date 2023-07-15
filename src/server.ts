@@ -5,13 +5,7 @@ import cors from 'cors';
 import { ConfigServer, PORT } from './config/config';
 import { LoginStrategy } from './auth/strategies/login.strategy';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
-import {
-  UserRouter,
-  CategoryRouter,
-  ExpenseRouter,
-  AuthRouter,
-} from '.';
-
+import { UserRouter, CategoryRouter, ExpenseRouter, AuthRouter, UserCategoryRouter } from '.';
 class ServerBootstrap extends ConfigServer {
   public app: express.Application = express();
   private port: number = Number(PORT);
@@ -36,9 +30,10 @@ class ServerBootstrap extends ConfigServer {
       new CategoryRouter().router,
       new ExpenseRouter().router,
       new AuthRouter().router,
+      new UserCategoryRouter().router,
     ];
   }
-  
+
   passportUse() {
     return [new LoginStrategy().use, new JwtStrategy().use];
   }
