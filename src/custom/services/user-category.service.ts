@@ -16,12 +16,15 @@ export class UserCategoryService extends BaseService<UserCategoryEntity> {
     super(UserCategoryEntity);
   }
 
-  async findUserCategoriesByUserId(user_id: string): Promise<UserCategoryEntity[]> {
-    return (await this.execRepository)
+  async findUserCategoriesByUserId(user_id: string): Promise<Array<UserCategoryEntity | CategoryEntity>> {
+    const allDefaultCategories = await this.categoryService.findAllDefaultCategories();
+    const categoriesByUserId = await (await this.execRepository)
       .createQueryBuilder('userCategory')
       .leftJoinAndSelect('userCategory.category', 'category')
       .where('userCategory.user_id = :user_id', { user_id })
       .getMany();
+    const categories = categoriesByUserId.map(item => item.category);
+      return [...allDefaultCategories, ...categories];
   }
 
   async createUserCategory(category: CategoryDTO, user_id: string): Promise<UserCategoryEntity> {
