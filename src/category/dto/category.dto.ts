@@ -4,4 +4,7 @@ import { BaseDTO } from '../../config/base.dto';
 export class CategoryDTO extends BaseDTO {
   @IsNotEmpty()
   name!: string;
+
+  @IsNotEmpty()
+  isDefault!: boolean;
 }

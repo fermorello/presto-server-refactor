@@ -9,6 +9,9 @@ export class CategoryEntity extends BaseEntity {
   @Index({ unique: true })
   name!: string;
 
+  @Column()
+  isDefault!: boolean;
+
   @OneToMany(() => ExpenseEntity, expense => expense.category)
   expenses!: ExpenseEntity[];
 

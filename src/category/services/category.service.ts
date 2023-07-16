@@ -9,23 +9,19 @@ export class CategoryService extends BaseService<CategoryEntity> {
   }
 
   async findAllCategories(): Promise<CategoryEntity[]> {
-    return (await this.execRepository)
-      .createQueryBuilder('category')
-      .getMany();
+    return (await this.execRepository).createQueryBuilder('category').getMany();
+  }
+
+  async findAllDefaultCategories(): Promise<CategoryEntity[]> {
+    return (await this.execRepository).createQueryBuilder('category').where('category.isDefault = :isDefault', { isDefault: true }).getMany();
   }
 
   async findCategoryById(id: string): Promise<CategoryEntity | null> {
-    return (await this.execRepository)
-      .createQueryBuilder('category')
-      .where({ id })
-      .getOne();
+    return (await this.execRepository).createQueryBuilder('category').where({ id }).getOne();
   }
 
   async findCategoryByName(name: string): Promise<CategoryEntity | null> {
-    return (await this.execRepository)
-      .createQueryBuilder('category')
-      .where({ name })
-      .getOne();
+    return (await this.execRepository).createQueryBuilder('category').where({ name }).getOne();
   }
 
   async createCategory(category: CategoryDTO): Promise<CategoryEntity> {
@@ -36,7 +32,7 @@ export class CategoryService extends BaseService<CategoryEntity> {
   async deleteCategory(id: string): Promise<DeleteResult> {
     return (await this.execRepository).delete({ id });
   }
-  
+
   async updateCategory(id: string, updatedCategory: CategoryDTO): Promise<UpdateResult> {
     return (await this.execRepository).update(id, updatedCategory);
   }

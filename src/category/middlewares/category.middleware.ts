@@ -7,10 +7,11 @@ export class CategoryMiddleware {
     constructor(private readonly httpResponse: HttpResponse = new HttpResponse()){}
 
   categoryValidator(req: Request, res: Response, next: NextFunction) {
-    const { name } =
+    const { name, isDefault } =
       req.body;
     const valid = new CategoryDTO();
     valid.name = name;
+    valid.isDefault = isDefault;
     validate(valid).then((err) => {
         if(err.length) {
             return this.httpResponse.ERROR(res, err);
